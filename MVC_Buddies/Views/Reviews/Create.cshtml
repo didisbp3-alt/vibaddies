@@ -1,0 +1,19 @@
+﻿@model MVC_Buddies.Dtos.CreateReviewDto
+
+<h2>Leave a Review</h2>
+
+<form asp-action="Create" method="post">
+
+    <input type="hidden" asp-for="BookingId" />
+
+    <div class="mb-3">
+        <label class="form-label">Comment</label>
+        <textarea asp-for="Comment" class="form-control"></textarea>
+        <span asp-validation-for="Comment" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Submit Review
+    </button>
+
+</form>

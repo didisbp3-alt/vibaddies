@@ -1,0 +1,5 @@
+*.zip
+MVC_Buddies/bin/
+MVC_Buddies/obj/
+MVC_Buddies/.vs/
+MVC_Buddies/*.user

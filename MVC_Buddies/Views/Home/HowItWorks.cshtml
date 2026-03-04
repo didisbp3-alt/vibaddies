@@ -1,0 +1,79 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer L
+
+@{
+    ViewData["Title"] = "Sobre Nós";
+}
+
+<section class="container my-5">
+    <div class="row justify-content-center">
+        <article class="col-lg-10">
+
+            <!-- TÍTULO PRINCIPAL -->
+            <header class="text-center mb-5">
+                <h1 class="fw-bold mb-3">Sobre Nós</h1>
+                <p class="lead text-muted">
+                    Facilitar o encontro entre donos de animais e cuidadores de confiança, com reservas práticas, seguras e acessíveis.
+                </p>
+            </header>
+
+            <!-- QUEM SOMOS -->
+            <section class="row align-items-center mb-5">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <h2 class="fw-semibold mb-3">Quem Somos</h2>
+                    <p class="text-muted mb-3">
+                        Somos uma plataforma dedicada a conectar donos de animais com cuidadores experientes e apaixonados pelo que fazem.
+                        Queremos tornar a procura e reserva de serviços para o seu animal tão simples quanto um clique.
+                    </p>
+                    <p class="text-muted mb-0">
+                        Acreditamos que cada animal merece cuidado personalizado e atenção especial, e trabalhamos para garantir que cada reserva seja feita com total segurança e transparência.
+                    </p>
+                </div>
+                <figure class="col-md-6 text-center mb-4 mb-md-0">
+                    <img src="~/images/about-pets.jpg"
+                         alt="Cuidadores e animais felizes"
+                         class="img-fluid rounded-4 shadow-sm" />
+                </figure>
+            </section>
+
+            <!-- O QUE FAZEMOS -->
+            <section class="row align-items-center mb-5 flex-md-row-reverse">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <h2 class="fw-semibold mb-3">O Que Fazemos</h2>
+                    <ul class="text-muted ps-3">
+                        <li>Oferecemos uma plataforma intuitiva para pesquisa e reserva de cuidadores locais.</li>
+                        <li>Garantimos que todos os cuidadores são verificados e avaliados por outros donos de animais.</li>
+                        <li>Facilitamos a comunicação direta entre donos e cuidadores para alinharem detalhes do serviço.</li>
+                        <li>Proporcionamos pagamentos seguros e um sistema de reservas confiável para sua tranquilidade.</li>
+                    </ul>
+                </div>
+                <figure class="col-md-6 text-center mb-4 mb-md-0">
+                    <img src="~/images/about-services.jpg"
+                         alt="Serviços oferecidos para cuidados de animais"
+                         class="img-fluid rounded-4 shadow-sm" />
+                </figure>
+            </section>
+
+            <!-- MISSÃO -->
+            <section class="row mb-5">
+                <div class="col text-center">
+                    <h2 class="fw-semibold mb-3">Nossa Missão</h2>
+                    <p class="text-muted mx-auto" style="max-width: 720px;">
+                        Tornar a experiência de encontrar e reservar cuidados para o seu animal simples, segura e confiável.
+                        Queremos que cada dono tenha a confiança de que seu animal está em boas mãos, com profissionais apaixonados e dedicados.
+                    </p>
+                </div>
+            </section>
+
+            <!-- CALL TO ACTION -->
+            <div class="text-center mt-5">
+                <a asp-controller="Home"
+                   asp-action="Search"
+                   class="btn btn-brand btn-lg px-5">
+                    Comece a reservar agora
+                </a>
+            </div>
+
+        </article>
+    </div>
+</section>

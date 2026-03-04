@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\Views\Admin\" />
+    <Folder Include="Resources\Views\Booking\" />
+    <Folder Include="Resources\Views\Auth\" />
+    <Folder Include="Resources\Views\Chat\" />
+    <Folder Include="Resources\Views\Reviews\" />
+    <Folder Include="Resources\Views\Reports\" />
+    <Folder Include="Resources\Views\Shared\" />
+    <Folder Include="Resources\Views\Pet\" />
+    <Folder Include="wwwroot\Images\Home\" />
+    <Folder Include="wwwroot\Images\About Us\" />
+    <Folder Include="wwwroot\Images\Perfis\" />
+  </ItemGroup>
+
+</Project>

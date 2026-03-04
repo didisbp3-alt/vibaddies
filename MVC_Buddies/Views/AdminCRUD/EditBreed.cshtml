@@ -1,0 +1,25 @@
+﻿@model MVC_Buddies.Dtos.BreedEditViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@inject IViewLocalizer Localizer
+
+<h2>@Localizer["EditBreedTitle"]</h2>
+
+<form asp-action="EditBreed" method="post">
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label>@Localizer["Name"]</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>@Localizer["Species"]</label>
+        <select asp-for="SpeciesId" asp-items="Model.SpeciesList" class="form-select"></select>
+    </div>
+
+    <button type="submit" class="btn btn-warning">
+        @Localizer["Update"]
+    </button>
+</form>

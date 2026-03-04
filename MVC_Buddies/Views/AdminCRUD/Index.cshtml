@@ -1,0 +1,42 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<div class="d-flex flex-column gap-2">
+
+    <a class="btn btn-brand btn-sm w-100"
+       asp-controller="AdminCRUD"
+       asp-action="IndexBreed">
+        @Localizer["Breeds"]
+    </a>
+
+    <a class="btn btn-brand btn-sm w-100"
+       asp-controller="AdminCRUD"
+       asp-action="IndexLocation">
+        @Localizer["Locations"]
+    </a>
+
+    <a class="btn btn-brand btn-sm w-100"
+       asp-controller="AdminCRUD"
+       asp-action="IndexService">
+        @Localizer["Services"]
+    </a>
+
+    <a class="btn btn-brand btn-sm w-100"
+       asp-controller="AdminCRUD"
+       asp-action="IndexSkill">
+        @Localizer["Skills"]
+    </a>
+
+    <a class="btn btn-brand btn-sm w-100"
+       asp-controller="AdminCRUD"
+       asp-action="IndexSpecies">
+        @Localizer["Species"]
+    </a>
+
+    <a class="btn btn-brand btn-sm w-100"
+       asp-controller="AdminCRUD"
+       asp-action="PendingPetSitters">
+        @Localizer["PendingPetSitters"]
+    </a>
+
+</div>

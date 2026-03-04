@@ -1,0 +1,65 @@
+﻿@model MVC_Buddies.Dtos.BookingViewModel
+
+@{
+    var today = DateTime.Now.ToString("yyyy-MM-ddTHH:mm"); 
+}
+
+<h2>Reservar Serviço</h2>
+
+<form asp-action="Create" method="post">
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            @Html.ValidationSummary(false)
+        </div>
+    }
+    
+    <input type="hidden" asp-for="AnnouncementId" />
+
+    <div class="mb-3">
+        <label>Escolher Pet</label>
+        <select asp-for="PetId" class="form-select">
+            @foreach (var pet in Model.Pets)
+            {
+                <option value="@pet.Id">@pet.Name</option>
+            }
+        </select>
+    </div>
+
+ 
+
+    <div class="mb-3">
+        <label>Tipo de Serviço</label>
+        <select asp-for="SelectedServiceId" class="form-select">
+            @foreach (var service in Model.Services)
+            {
+                <option value="@service.Id">@service.Name</option>
+            }
+        </select>
+    </div>
+
+
+
+    <div class="mb-3">
+        <label>Data Início</label>
+        <input asp-for="StartDate"
+               type="datetime-local"
+               class="form-control"
+               value="@today"
+               min="@today" />
+    </div>
+
+    <div class="mb-3">
+        <label>Data Fim</label>
+        <input asp-for="EndDate"
+               type="datetime-local"
+               class="form-control"
+               value="@today"
+               min="@today" />
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        Confirmar Reserva
+    </button>
+</form>

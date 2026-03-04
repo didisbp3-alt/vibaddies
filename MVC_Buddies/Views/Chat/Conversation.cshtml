@@ -1,0 +1,33 @@
+﻿@using MVC_Buddies.Dtos
+@model List<SendMessageDto>
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="card-body" id="chatBox">
+
+            @foreach (var m in Model)
+            {
+                <div class="mb-2">
+                    @m.Body
+                </div>
+            }
+
+        </div>
+
+        <form method="post" asp-action="SendMessage">
+
+            <input type="hidden" name="conversationId" value="@ViewBag.ConversationId" />
+
+            <div class="input-group">
+                <input name="body" class="form-control" />
+                <button class="btn btn-brand">Send</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+

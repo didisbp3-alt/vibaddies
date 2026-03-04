@@ -1,0 +1,81 @@
+﻿@model MVC_Buddies.Dtos.AnnouncementDetailsDto
+
+@{
+    ViewData["Title"] = Model.FullName;
+}
+
+<div class="container py-4">
+
+    <!-- Localização -->
+    <div class="mb-3 text-muted d-flex align-items-center">
+        <i class="bi bi-geo-alt me-2"></i>
+        <span>@Model.LocationName</span>
+    </div>
+
+    <!-- Petsitter Foto e Nome -->
+    <div class="d-flex align-items-center mb-4">
+        <img src="@(string.IsNullOrWhiteSpace(Model.PhotoUrl)
+                                     ? Url.Content("~/images/avatar-placeholder.png")
+                                     : Model.PhotoUrl)"
+             alt="@Model.FullName"
+             class="rounded-circle me-3"
+             style="width:120px;height:120px;object-fit:cover;" />
+        <div>
+            <h2 class="mb-1">@Model.FullName</h2>
+            <p class="mb-0 text-muted">@Model.YearsExperience @("anos de experiência")</p>
+        </div>
+    </div>
+
+    <!-- Skills -->
+    @if (Model.Skills != null && Model.Skills.Any())
+    {
+        <div class="mb-4">
+            <h5>Skills</h5>
+            <ul class="list-inline">
+                @foreach (var skill in Model.Skills)
+                {
+                    <li class="list-inline-item badge bg-primary me-1 mb-1">@skill.Name</li>
+                }
+            </ul>
+        </div>
+    }
+
+    @if (Model.Reviews != null && Model.Reviews.Any())
+    {
+        <div class="mb-4">
+            <h5>Reviews</h5>
+
+            @foreach (var review in Model.Reviews)
+            {
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <p class="mb-1">@review.Comment</p>
+                        <small class="text-muted">
+                            @review.CreatedAt?.ToString("dd/MM/yyyy")
+                        </small>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-muted">Ainda não há reviews.</p>
+    }
+
+
+
+    <!-- Botão de Reservar -->
+    @if (!(User.IsInRole("PetSitter")))
+    {
+        <div class="mt-4">
+            <a class="btn btn-success btn-lg"
+           asp-controller="Booking"
+           asp-action="Create"
+           asp-route-announcementId="@Model.Id">
+            Reservar
+        </a>
+    </div>
+    }
+
+</div>

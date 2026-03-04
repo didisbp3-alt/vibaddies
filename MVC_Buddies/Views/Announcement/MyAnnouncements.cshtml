@@ -1,0 +1,73 @@
+﻿@model List<MVC_Buddies.Dtos.AnnouncementListDto>
+
+<h2 class="mb-4">My Announcements</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-light border rounded-4 shadow-sm">
+        No announcements yet.
+    </div>
+}
+else
+{
+    <div class="row g-4">
+
+        @foreach (var a in Model)
+        {
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
+
+                <article class="card h-100 shadow-sm rounded-4 border-0 w-100">
+                    <div class="card-body d-flex flex-column">
+
+                        <!-- Location -->
+                        <div class="mb-2">
+                            <h6>@a.LocationName</h6>
+                        </div>
+
+                        <!-- Species -->
+                        <div class="mb-2">
+                            @foreach (var sp in a.Species)
+                            {
+                                <span class="badge bg-info text-dark me-1">
+                                    @sp
+                                </span>
+                            }
+                        </div>
+
+                        <!-- Services -->
+                        <div class="mb-3">
+                            @foreach (var s in a.Services)
+                            {
+                                <span class="badge bg-secondary me-1">
+                                    @s
+                                </span>
+                            }
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="mt-auto pt-3 border-top">
+
+                            <form asp-action="Delete" method="post">
+                                <input type="hidden" name="id" value="@a.Id" />
+                                <button type="submit"
+                                        class="btn btn-outline-danger btn-sm w-100">
+                                    Delete
+                                </button>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </article>
+
+            </div>
+        }
+
+    </div>
+}
+
+<a class="btn btn-brand btn-sm"
+   asp-controller="Announcement"
+   asp-action="Create">
+    Create Announcement
+</a>

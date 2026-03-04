@@ -1,0 +1,56 @@
+﻿@model List<MVC_Buddies.Dtos.RefItemDto>
+@{
+    ViewData["Title"] = "Skills";
+}
+
+<h2 class="mb-3">@ViewData["Title"]</h2>
+
+<div class="card p-3 mb-3">
+    <form asp-action="CreateSkill" method="post" class="row g-2">
+        @Html.AntiForgeryToken()
+        <div class="col-md-8">
+            <input class="form-control" name="name" placeholder="Nova skill..." required />
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary w-100">Adicionar</button>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-striped mb-0 align-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th class="text-end">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var s in Model)
+                {
+                    <tr>
+                        <td>@s.Id</td>
+                        <td>
+                            <form asp-action="UpdateSkill" method="post" class="d-flex gap-2">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@s.Id" />
+                                <input class="form-control" name="name" value="@s.Name" />
+                                <button class="btn btn-outline-primary btn-sm">Guardar</button>
+                            </form>
+                        </td>
+                        <td class="text-end">
+                            <form asp-action="DeleteSkill" method="post" class="d-inline"
+                                  onsubmit="return confirm('Eliminar skill @s.Name?');">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@s.Id" />
+                                <button class="btn btn-outline-danger btn-sm">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

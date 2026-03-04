@@ -1,0 +1,20 @@
+﻿@model MVC_Buddies.Dtos.SpeciesCreateDto
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@inject IViewLocalizer Localizer
+
+<h2>@Localizer["NewSpeciesTitle"]</h2>
+
+<form asp-action="CreateSpecies">
+
+    <input asp-for="Name" class="form-control mb-3" />
+
+    <button class="btn btn-success">
+        @Localizer["Save"]
+    </button>
+
+</form>
+
+<a asp-action="IndexService" class="btn btn-secondary flex-fill">
+    @Localizer["Cancel"]
+</a>

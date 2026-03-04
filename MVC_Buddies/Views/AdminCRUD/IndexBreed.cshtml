@@ -1,0 +1,110 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model IEnumerable<MVC_Buddies.Dtos.BreedViewModel>
+
+<div class="container py-5">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">@Localizer["BreedsTitle"]</h2>
+            <p class="text-muted mb-0">@Localizer["BreedsSubtitle"]</p>
+        </div>
+
+        <a asp-action="CreateBreed" class="btn btn-dark px-4 shadow-sm">
+            @Localizer["NewBreed"]
+        </a>
+    </div>
+
+    <!-- Filter Card -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+        <div class="card-body">
+
+            <form method="get">
+                <div class="row align-items-end g-3">
+
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small">@Localizer["FilterBySpecies"]</label>
+                        <select name="speciesId" class="form-select form-select-lg">
+                            <option value="">@Localizer["AllSpecies"]</option>
+                            @foreach (var species in ViewBag.SpeciesList)
+                            {
+                                <option value="@species.Id"
+                                        selected="@(ViewContext.HttpContext.Request.Query["speciesId"] == species.Id.ToString())">
+                                    @species.Name
+                                </option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-auto">
+                        <button type="submit" class="btn btn-outline-dark px-4">
+                            @Localizer["ApplyFilter"]
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <!-- Empty State -->
+        <div class="text-center py-5 border rounded-4 bg-light">
+            <h5 class="fw-semibold mb-2">@Localizer["NoBreedsFound"]</h5>
+            <p class="text-muted mb-3">@Localizer["NoBreedsSubtitle"]</p>
+            <a asp-action="CreateBreed" class="btn btn-dark px-4">
+                @Localizer["CreateBreed"]
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+
+            @foreach (var breed in Model)
+            {
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+
+                    <div class="card border-0 shadow-sm rounded-4 h-100 breed-card">
+
+                        <div class="card-body d-flex flex-column">
+
+                            <div class="mb-3">
+                                <h5 class="fw-semibold mb-1">@breed.Name</h5>
+                                <span class="badge bg-light text-dark border">
+                                    @breed.SpeciesName
+                                </span>
+                            </div>
+
+                            <div class="mt-auto d-flex gap-2">
+
+                                <a asp-action="EditBreed"
+                                   asp-route-id="@breed.Id"
+                                   class="btn btn-sm btn-outline-secondary w-100">
+                                    @Localizer["Edit"]
+                                </a>
+
+                                <form asp-action="DeleteBreed" method="post" class="w-100">
+                                    <input type="hidden" name="id" value="@breed.Id" />
+                                    <button type="submit"
+                                            class="btn btn-sm btn-outline-danger w-100">
+                                        @Localizer["Delete"]
+                                    </button>
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

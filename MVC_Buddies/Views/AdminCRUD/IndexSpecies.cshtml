@@ -1,0 +1,76 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model IEnumerable<MVC_Buddies.Dtos.SpeciesItemDto>
+
+<div class="container py-5">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">@Localizer["SpeciesTitle"]</h2>
+            <p class="text-muted mb-0">@Localizer["SpeciesSubtitle"]</p>
+        </div>
+
+        <a asp-action="CreateSpecies" class="btn btn-dark px-4 shadow-sm">
+            @Localizer["NewSpecies"]
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <!-- Empty State -->
+        <div class="text-center py-5 border rounded-4 bg-light">
+            <h5 class="fw-semibold mb-2">@Localizer["NoSpeciesFound"]</h5>
+            <p class="text-muted mb-3">@Localizer["NoSpeciesSubtitle"]</p>
+            <a asp-action="CreateSpecies" class="btn btn-dark px-4">
+                @Localizer["CreateSpecies"]
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+
+            @foreach (var species in Model)
+            {
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+
+                    <div class="card border-0 shadow-sm rounded-4 h-100 species-card">
+
+                        <div class="card-body d-flex flex-column">
+
+                            <!-- Species Name -->
+                            <div class="mb-4">
+                                <h5 class="fw-semibold mb-0">@species.Name</h5>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="mt-auto d-flex gap-2">
+
+                                <a asp-action="EditSpecies"
+                                   asp-route-id="@species.Id"
+                                   class="btn btn-sm btn-outline-secondary w-100">
+                                    @Localizer["Edit"]
+                                </a>
+
+                                <form asp-action="DeleteSpecies" method="post" class="w-100">
+                                    <input type="hidden" name="id" value="@species.Id" />
+                                    <button type="submit"
+                                            class="btn btn-sm btn-outline-danger w-100">
+                                        @Localizer["Delete"]
+                                    </button>
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

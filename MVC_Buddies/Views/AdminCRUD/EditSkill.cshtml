@@ -1,0 +1,21 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model MVC_Buddies.Dtos.SkillItemDto
+
+<h2>@Localizer["EditSkillTitle"]</h2>
+
+<form asp-action="EditSkill">
+
+    <input type="hidden" asp-for="Id" />
+
+    <input asp-for="Name" class="form-control mb-3" />
+
+    <button class="btn btn-success">
+        @Localizer["Save"]
+    </button>
+
+</form>
+
+<a asp-action="IndexSkill" class="btn btn-secondary flex-fill">
+    @Localizer["Cancel"]
+</a>

@@ -1,0 +1,182 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model MVC_Buddies.Dtos.CreatePetSitterViewModel
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<h3 class="mb-4">@Localizer["PageHeading"]</h3>
+
+<form asp-action="CreatePetSitterProfile"
+      asp-controller="Account"
+      method="post"
+      enctype="multipart/form-data">
+
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="Id" />
+
+    <!-- Nome completo -->
+    <div class="mb-3">
+        <label asp-for="FullName" class="form-label"></label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+
+    <!-- Bio -->
+    <div class="mb-3">
+        <label asp-for="Bio" class="form-label"></label>
+        <textarea asp-for="Bio" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="Bio" class="text-danger"></span>
+    </div>
+
+    <!-- Preço por dia -->
+    <div class="mb-3">
+        <label asp-for="PricePerDay" class="form-label"></label>
+        <input asp-for="PricePerDay" class="form-control" type="number" step="0.01" min="0" />
+        <span asp-validation-for="PricePerDay" class="text-danger"></span>
+    </div>
+
+    <!-- Foto -->
+    <div class="mb-3">
+        <label asp-for="ProfilePicture" class="form-label"></label>
+        <input asp-for="ProfilePicture" type="file" class="form-control" accept="image/*" />
+        <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.PhotoUrl))
+    {
+        <div class="mb-4">
+            <label class="form-label">@Localizer["CurrentPhoto"]</label><br />
+            <img src="@Model.PhotoUrl"
+                 alt="@Localizer["CurrentPhotoAlt"]"
+                 class="img-thumbnail"
+                 style="max-width: 180px;" />
+        </div>
+    }
+
+    <!-- Skills -->
+    <div class="mb-4">
+        <label class="form-label">@Localizer["SkillsLabel"]</label>
+
+        <div id="skills-list" class="row g-2 mb-3">
+            @foreach (var skill in Model.Skills)
+            {
+                var isChecked = Model.SelectedSkillIds.Contains(skill.Id);
+                <div class="col-auto">
+                    <div class="form-check">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               name="SelectedSkillIds"
+                               value="@skill.Id"
+                               id="skill_@skill.Id"
+                               @(isChecked ? "checked" : "") />
+                        <label class="form-check-label" for="skill_@skill.Id">
+                            @skill.Name
+                        </label>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Nova Skill -->
+        <div class="input-group mb-3">
+            <input type="text"
+                   id="newSkillName"
+                   class="form-control"
+                   placeholder="@Localizer["NewSkillPlaceholder"]" />
+            <button class="btn btn-outline-primary"
+                    type="button"
+                    id="btnAddSkill">
+                @Localizer["AddButton"]
+            </button>
+        </div>
+
+        <div id="skillMessage" class="small mt-1"></div>
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-success px-5">
+            @Localizer["SaveProfileButton"]
+        </button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        const messages = {
+            emptySkill: "@Localizer["EmptySkillMessage"]",
+            addError: "@Localizer["AddSkillError"]",
+            addSuccess: "@Localizer["AddSkillSuccess"]",
+            serverError: "@Localizer["ServerError"]"
+        };
+
+        document.getElementById("btnAddSkill")
+            .addEventListener("click", async function () {
+
+            const skillName = document.getElementById("newSkillName").value.trim();
+
+            if (!skillName) {
+                showMessage(messages.emptySkill, "danger");
+                return;
+            }
+
+            try {
+                const response = await fetch("/api/skills", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "RequestVerificationToken":
+                            document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({ name: skillName })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    showMessage(errorData.message || messages.addError, "danger");
+                    return;
+                }
+
+                const newSkill = await response.json();
+
+                const skillsList = document.getElementById("skills-list");
+
+                const newCheckbox = `
+                    <div class="col-auto">
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   name="SelectedSkillIds"
+                                   value="${newSkill.id}"
+                                   id="skill_${newSkill.id}"
+                                   checked />
+                            <label class="form-check-label"
+                                   for="skill_${newSkill.id}">
+                                ${newSkill.name}
+                            </label>
+                        </div>
+                    </div>
+                `;
+
+                skillsList.insertAdjacentHTML("beforeend", newCheckbox);
+
+                document.getElementById("newSkillName").value = "";
+                showMessage(messages.addSuccess, "success");
+
+            } catch (err) {
+                showMessage(messages.serverError, "danger");
+                console.error(err);
+            }
+        });
+
+        function showMessage(text, type) {
+            const msgDiv = document.getElementById("skillMessage");
+            msgDiv.innerHTML = `<span class="text-${type}">${text}</span>`;
+            setTimeout(() => { msgDiv.innerHTML = ""; }, 5000);
+        }
+    </script>
+}

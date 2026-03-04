@@ -1,0 +1,23 @@
+﻿@model MVC_Buddies.Dtos.BreedCreateViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@inject IViewLocalizer Localizer
+
+<h2>@Localizer["CreateBreedTitle"]</h2>
+
+<form asp-action="CreateBreed" method="post">
+
+    <div class="mb-3">
+        <label>@Localizer["Name"]</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>@Localizer["Species"]</label>
+        <select asp-for="SpeciesId" asp-items="Model.SpeciesList" class="form-select"></select>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        @Localizer["Save"]
+    </button>
+</form>

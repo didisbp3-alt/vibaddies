@@ -1,0 +1,96 @@
+﻿@model MVC_Buddies.Dtos.PetDto
+
+<div class="container mt-4">
+    <div class="card shadow-sm rounded-4 p-4">
+
+        <h4>Create Pet</h4>
+
+        <form asp-action="Create" method="post">
+
+            <input type="hidden" asp-for="OwnerId" />
+
+            <!-- SPECIES -->
+            <div class="mb-3">
+                <label>Species</label>
+                <select asp-for="SpeciesId"
+                        id="speciesDropdown"
+                        class="form-control"
+                        asp-items="@(new SelectList(Model.Species, "Id", "Name"))">
+                    <option value="">-- Select Species --</option>
+                </select>
+            </div>
+
+            <!-- BREED -->
+            <div class="mb-3">
+                <label>Breed</label>
+                <select asp-for="BreedId"
+                        id="breedDropdown"
+                        class="form-control">
+                    <option value="">-- Select Breed --</option>
+                </select>
+            </div>
+
+            <!-- NAME -->
+            <div class="mb-3">
+                <label>Name</label>
+                <input asp-for="Name" class="form-control" />
+            </div>
+
+            <!-- AGE -->
+            <div class="mb-3">
+                <label>Age</label>
+                <input asp-for="Age" type="number" class="form-control" />
+            </div>
+
+            <!-- SPECIAL NEEDS -->
+            <div class="form-check mb-3">
+                <input asp-for="HasSpecialNeeds" class="form-check-input" />
+                <label class="form-check-label">Has Special Needs</label>
+            </div>
+
+            <div class="mb-3">
+                <label>Special Needs Notes</label>
+                <textarea asp-for="SpecialNeedsNotes" class="form-control"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label>Medical Notes</label>
+                <textarea asp-for="MedicalNotes" class="form-control"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label>Photo URL</label>
+                <input asp-for="PhotoUrls" class="form-control" />
+            </div>
+
+            <button type="submit" class="btn btn-brand btn-sm">Create</button>
+            <a asp-action="Index" class="btn btn-brand btn-sm">Cancel</a>
+
+        </form>
+    </div>
+</div>
+
+
+<script>
+    document.getElementById("speciesDropdown")
+        .addEventListener("change", function () {
+
+        var speciesId = this.value;
+        var breedDropdown = document.getElementById("breedDropdown");
+
+        breedDropdown.innerHTML = '<option value="">-- Select Breed --</option>';
+
+        if (speciesId) {
+            fetch(`/Pet/GetBreedsBySpecies?speciesId=${speciesId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(breed => {
+                        var option = document.createElement("option");
+                        option.value = breed.id;
+                        option.text = breed.name;
+                        breedDropdown.appendChild(option);
+                    });
+                });
+        }
+    });
+</script>

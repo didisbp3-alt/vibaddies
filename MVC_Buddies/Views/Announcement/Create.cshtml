@@ -1,0 +1,74 @@
+﻿@model MVC_Buddies.Dtos.CreateAnnouncementDto
+
+<h2 class="mb-4">Create Announcement</h2>
+
+<form asp-action="Create" method="post">
+
+    <!-- Location -->
+    <div class="mb-3">
+        <label class="form-label">Location</label>
+        <select asp-for="LocationId" class="form-select">
+            <option value="">Select location</option>
+            @foreach (var l in Model.Locations)
+            {
+                <option value="@l.Id">@l.District</option>
+            }
+        </select>
+    </div>
+
+    <!-- SERVICES -->
+    <div class="mb-3">
+        <label class="form-label">Services</label>
+
+        @foreach (var s in Model.Services)
+        {
+            <div class="form-check">
+                <input type="checkbox"
+                       name="ServiceIds"
+                       value="@s.Id"
+                       class="form-check-input" />
+                <label class="form-check-label">@s.Name</label>
+            </div>
+        }
+
+        <!-- 🔥 NOVO SERVICE -->
+        <div class="mt-3">
+            <label class="form-label">Add New Service</label>
+            <input type="text"
+                   name="NewServices"
+                   class="form-control"
+                   placeholder="Enter new service name" />
+        </div>
+    </div>
+
+
+    <!-- SPECIES -->
+    <div class="mb-3">
+        <label class="form-label">Species</label>
+
+        @foreach (var sp in Model.Species)
+        {
+            <div class="form-check">
+                <input type="checkbox"
+                       name="SpeciesIds"
+                       value="@sp.Id"
+                       class="form-check-input" />
+                <label class="form-check-label">@sp.Name</label>
+            </div>
+        }
+
+        <!-- 🔥 NOVA SPECIES -->
+        <div class="mt-3">
+            <label class="form-label">Add New Species</label>
+            <input type="text"
+                   name="NewSpecies"
+                   class="form-control"
+                   placeholder="Enter new species name" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-brand">
+        Create Announcement
+    </button>
+
+</form>

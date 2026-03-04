@@ -1,0 +1,71 @@
+﻿@model MVC_Buddies.Dtos.AccountProfileViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@inject IViewLocalizer Localizer
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-5">
+
+            <div class="row">
+
+                <!-- FOTO -->
+                <div class="col-md-4 text-center">
+                    <img src="@Model.PhotoUrl"
+                         class="img-fluid rounded-circle shadow"
+                         style="width:200px; height:200px; object-fit:cover;" />
+
+                    <h4 class="mt-3">@Model.FullName</h4>
+
+                    <span class="badge bg-primary px-3 py-2">
+                        @Model.SubscriptionType
+                    </span>
+                </div>
+
+                <hr />
+
+                <h5>@Localizer["AccountInformation"]</h5>
+
+                <p><strong>@Localizer["Username"]:</strong> @Model.UserName</p>
+                <p><strong>@Localizer["Email"]:</strong> @Model.Email</p>
+                <p><strong>@Localizer["ProfileType"]:</strong> @Model.ProfileType</p>
+
+                @if (Model.ProfileType == "PetSitter")
+                {
+                    <hr />
+                    <h5>@Localizer["PetSitterProfile"]</h5>
+
+                    <p><strong>@Localizer["Location"]:</strong> @Model.LocationName</p>
+                    <p>
+                        <strong>@Localizer["Experience"]:</strong>
+                        @Model.YearsExperience @Localizer["Years"]
+                    </p>
+
+                    <h6>@Localizer["Skills"]</h6>
+                    @foreach (var skill in Model.Skills)
+                    {
+                        <span class="badge bg-success me-2 mb-2">@skill</span>
+                    }
+
+                    <h6>@Localizer["Species"]</h6>
+                    @foreach (var s in Model.Species)
+                    {
+                        <span class="badge bg-info text-dark me-2 mb-2">@s</span>
+                    }
+                }
+
+                <div class="mt-4 text-end">
+                    <a asp-action="Edit"
+                       asp-route-id="@Model.Id"
+                       class="btn btn-outline-primary px-4">
+                        @Localizer["EditProfile"]
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

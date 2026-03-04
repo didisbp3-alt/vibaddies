@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model IEnumerable<MVC_Buddies.Dtos.PendingPetSitterViewModel>
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">@Localizer["PendingPetSittersTitle"]</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-success">
+            @Localizer["NoPendingRequests"]
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var sitter in Model)
+            {
+                <div class="col-md-4 mb-4">
+
+                    <div class="card shadow-sm border-0 rounded-4 h-100">
+
+                        <img src="@sitter.PhotoUrl"
+                             class="card-img-top"
+                             style="height:200px; object-fit:cover;" />
+
+                        <div class="card-body">
+
+                            <h5>@sitter.FullName</h5>
+
+                            <p class="text-muted">
+                                @Localizer["ExperienceLabel"]: @sitter.YearsExperience @Localizer["YearsSuffix"]
+                            </p>
+
+                            <span class="badge bg-secondary mb-3">
+                                @sitter.SubscriptionType
+                            </span>
+
+                            <div class="d-flex justify-content-between">
+
+                                <form asp-action="Approve" method="post">
+                                    <input type="hidden" name="id" value="@sitter.Id" />
+                                    <button type="submit"
+                                            class="btn btn-success btn-sm">
+                                        @Localizer["Approve"]
+                                    </button>
+                                </form>
+
+                                <form asp-action="Delete" method="post">
+                                    <input type="hidden" name="id" value="@sitter.Id" />
+                                    <button type="submit"
+                                            class="btn btn-danger btn-sm">
+                                        @Localizer["Delete"]
+                                    </button>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+    }
+
+</div>

@@ -1,0 +1,209 @@
+﻿@using MVC_Buddies.Dtos
+@model List<BookingListDto>
+
+@{
+    bool isPetSitter = ViewBag.IsPetSitter ?? false;
+
+    var today = DateTime.UtcNow.Date;
+
+    var pending = Model.Where(b => b.Status == "Pending").ToList();
+    var accepted = Model.Where(b => b.Status == "Accepted").ToList();
+
+
+
+    var now = DateTime.Now;
+
+    var current = Model
+        .Where(b => b.StartDate.HasValue && b.EndDate.HasValue &&
+                    b.StartDate.Value.ToLocalTime() <= now &&
+                    b.EndDate.Value.ToLocalTime() >= now)
+        .ToList();
+
+    var upcoming = Model
+        .Where(b => b.StartDate.HasValue &&
+                    b.StartDate.Value.ToLocalTime() > now)
+        .ToList();
+
+    var past = Model
+        .Where(b => b.EndDate.HasValue &&
+                    b.EndDate.Value.ToLocalTime() < now)
+        .ToList();
+}
+
+<h2 class="mb-4">My Bookings</h2>
+
+
+
+@if (!isPetSitter)
+{
+    <h4 class="text-success">Ongoing</h4>
+    <div class="row mb-4">
+        @foreach (var b in current)
+        {
+            <div class="col-md-4">
+                <div class="card p-3">
+                    <h6>@b.PetName</h6>
+
+                    <div class="small text-muted">
+                        @b.StartDate?.ToString("dd MMM yyyy HH:mm")
+                        -
+                        @b.EndDate?.ToString("dd MMM yyyy HH:mm")
+                    </div>
+
+                    <div class="mt-2">
+                        <span class="badge bg-light text-dark">@b.Status</span>
+                    </div>
+
+                    <div class="mt-2">
+                        Price: <strong>@b.TotalPrice €</strong>
+                    </div>
+
+                    <div class="mt-3">
+                        <a class="btn btn-primary btn-sm w-100 mb-2"
+                           asp-controller="Chat"
+                           asp-action="Open"
+                           asp-route-bookingId="@b.BookingId">
+                            Message
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <h4 class="text-primary">Upcoming</h4>
+    <div class="row mb-4">
+        @foreach (var b in upcoming)
+        {
+            <div class="col-md-4">
+                <div class="card p-3">
+                    <h6>@b.PetName</h6>
+
+                    <div class="small text-muted">
+                        @b.StartDate?.ToString("dd MMM yyyy HH:mm")
+                        -
+                        @b.EndDate?.ToString("dd MMM yyyy HH:mm")
+                    </div>
+
+                    <div class="mt-2">
+                        <span class="badge bg-light text-dark">@b.Status</span>
+                    </div>
+
+                    <div class="mt-2">
+                        Price: <strong>@b.TotalPrice €</strong>
+                    </div>
+
+                    <div class="mt-3">
+                        <a class="btn btn-primary btn-sm w-100 mb-2"
+                           asp-controller="Chat"
+                           asp-action="Open"
+                           asp-route-bookingId="@b.BookingId">
+                            Message
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <h4 class="text-secondary">Past</h4>
+    <div class="row mb-4">
+        @foreach (var b in past)
+        {
+            <div class="col-md-4">
+                <div class="card p-3">
+                    <h6>@b.PetName</h6>
+
+                    <div class="small text-muted">
+                        @b.StartDate?.ToString("dd MMM yyyy HH:mm")
+                        -
+                        @b.EndDate?.ToString("dd MMM yyyy HH:mm")
+                    </div>
+
+                    <div class="mt-2">
+                        <span class="badge bg-light text-dark">@b.Status</span>
+                    </div>
+
+                    <div class="mt-2">
+                        Price: <strong>@b.TotalPrice €</strong>
+                    </div>
+
+                    <div class="mt-3">
+                        <a class="btn btn-primary btn-sm w-100 mb-2"
+                           asp-controller="Chat"
+                           asp-action="Open"
+                           asp-route-bookingId="@b.BookingId">
+                            Message
+                        </a>
+
+                       
+                            <a class="btn btn-outline-primary btn-sm w-100"
+                               asp-controller="Reviews"
+                               asp-action="Create"
+                               asp-route-bookingId="@b.BookingId">
+                                Leave a Review
+                            </a>
+                        
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@if (isPetSitter)
+{
+    <h4 class="text-warning">Pending</h4>
+    <div class="row mb-4">
+        @foreach (var b in pending)
+        {
+            <div class="col-md-4">
+                <div class="card p-3">
+                    <h6>@b.PetName</h6>
+                    <div>@b.StartDate - @b.EndDate</div>
+
+                    <form asp-action="Accept" method="post">
+                        <input type="hidden" name="id" value="@b.BookingId" />
+                        <button class="btn btn-success btn-sm mt-2">Accept</button>
+                    </form>
+
+                    <form asp-action="Reject" method="post">
+                        <input type="hidden" name="id" value="@b.BookingId" />
+                        <button class="btn btn-danger btn-sm mt-2">Reject</button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+
+    <h4 class="text-success">Accepted</h4>
+    <div class="row">
+        @foreach (var b in accepted)
+        {
+            <div class="col-md-4">
+                <div class="card p-3">
+                    <h6>@b.PetName</h6>
+
+                    <div class="small text-muted">
+                        @b.StartDate?.ToString("dd MMM yyyy HH:mm")
+                        -
+                        @b.EndDate?.ToString("dd MMM yyyy HH:mm")
+                    </div>
+
+                    <div class="mt-2">
+                        <span class="badge bg-light text-dark">@b.Status</span>
+                    </div>
+
+                    <div class="mt-3">
+                        <a class="btn btn-primary btn-sm w-100"
+                           asp-controller="Chat"
+                           asp-action="Open"
+                           asp-route-bookingId="@b.BookingId">
+                            Message
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

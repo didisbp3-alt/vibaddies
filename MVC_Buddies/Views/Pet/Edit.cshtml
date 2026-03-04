@@ -1,0 +1,64 @@
+﻿@model MVC_Buddies.Dtos.PetDto
+
+<div class="container mt-4">
+    <div class="card shadow-sm rounded-4 p-4">
+
+        <h4>Edit Pet</h4>
+
+        <form asp-action="Edit" method="post" ">
+
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-3">
+                <label>Name</label>
+                <input asp-for="Name" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label>Age</label>
+                <input asp-for="Age" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label>Breed</label>  
+                <select asp-for="BreedId" class="form-control"
+                     asp-items="@(Model.Breeds != null
+                          ? new SelectList(Model.Breeds, "Id", "Name")
+                           : new SelectList(Enumerable.Empty<SelectListItem>()))">
+                </select>
+
+               @*  <select asp-for="BreedId"
+                        asp-items="@(new SelectList(ViewBag.Breeds, "Id", "Name"))">
+                    <option value="">-- Select Breed --</option>
+                </select> *@
+            </div>
+
+         
+
+
+            <div class="form-check mb-3">
+                <input asp-for="HasSpecialNeeds" class="form-check-input" />
+                <label class="form-check-label">Has Special Needs</label>
+            </div>
+
+            <div class="mb-3">
+                <label>Special Needs Notes</label>
+                <textarea asp-for="SpecialNeedsNotes" class="form-control"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label>Medical Notes</label>
+                <textarea asp-for="MedicalNotes" class="form-control"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label>Photo URL</label>
+                <input asp-for="PhotoUrls" class="form-control" />
+            </div>
+
+            <button class="btn btn-brand btn-sm">Save</button>
+            <a asp-action="Index" class="btn btn-brand btn-sm" >Cancel</a>
+
+        </form>
+    </div>
+</div>

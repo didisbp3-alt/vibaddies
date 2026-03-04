@@ -1,0 +1,155 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer L
+@model MVC_Buddies.Dtos.MainViewModel
+
+
+@{
+    ViewData["Title"] = L["HomeTitle"];
+    var city = !string.IsNullOrWhiteSpace(Model.Location) ? Model.Location : "";
+}
+
+<form method="get" class="row g-2">
+
+    <div class="col-12">
+        <label class="form-label small text-muted">@L["LocationLabel"]</label>
+        <div class="input-group">
+            <span class="input-group-text bg-white"><i class="bi bi-geo-alt"></i></span>
+            <input name="location"
+                   value="@(Model?.Location ?? "")"
+                   class="form-control"
+                   type="search"
+                   placeholder="@L["LocationPlaceholder"]" />
+        </div>
+    </div>
+
+    <div class="col-6">
+        <label class="form-label small text-muted">@L["FromDateLabel"]</label>
+        <input name="from" class="form-control" type="date" />
+    </div>
+
+    <div class="col-6">
+        <label class="form-label small text-muted">@L["ToDateLabel"]</label>
+        <input name="to" class="form-control" type="date" />
+    </div>
+
+    <div class="col-12">
+        <label class="form-label small text-muted">@L["ServiceLabel"]</label>
+        <select name="serviceId" class="form-select">
+            <option value="">@L["AnyService"]</option>
+
+            @foreach (var s in Model.Services)
+            {
+                <option value="@s.Id"
+                        selected="@(Model.SelectedServiceId == s.Id)">
+                    @s.Name
+                </option>
+            }
+        </select>
+
+    </div>
+
+    <div class="col-12 mt-2">
+        <button class="btn btn-brand w-100" type="submit">
+            <i class="bi bi-search me-1"></i> @L["Search"]
+        </button>
+    </div>
+
+    <div class="col-12 mt-2 text-muted small">
+        <i class="bi bi-shield-check me-1"></i> @L["TrustLine"]
+    </div>
+</form>
+
+<!-- TOP SITTERS -->
+<section class="mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="h5 mb-0">@L["TopSittersIn"] @city</h3>
+        <a asp-controller="Search" asp-action="Index"
+           class="small text-muted text-decoration-none">
+            @L["SeeAll"] <i class="bi bi-arrow-right-short"></i>
+        </a>
+    </div>
+
+    <div class="row g-3">
+        @if (Model?.Sitters == null || !Model.Sitters.Any())
+        {
+            <div class="col-12">
+                <div class="alert alert-info mb-0">@L["NoSittersFound"]</div>
+            </div>
+        }
+        else
+        {
+            foreach (var s in Model.Sitters)
+            {
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <article class="card h-100 shadow-sm rounded-4 border-0 sitter-card">
+                        <div class="card-body d-flex flex-column">
+
+                            <div class="d-flex gap-3 mb-3 align-items-center">
+                                <img src="@(string.IsNullOrWhiteSpace(s.AvatarUrl)
+                                                                                                  ? Url.Content("~/images/avatar-placeholder.png")
+                                                                                                  : s.AvatarUrl)"
+                             alt="@s.Name"
+                             class="rounded-circle"
+                             style="width:56px;height:56px;object-fit:cover;" />
+
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between gap-2">
+                                        <div>
+                                            <h6 class="mb-1">@s.Name</h6>
+                                            <div class="small text-muted">
+                                                <i class="bi bi-geo-alt me-1"></i>@s.City
+                                            </div>
+                                        </div>
+
+                                        <div class="text-end">
+                                            @* <div class="badge bg-light text-dark border">
+                                                @s.Rating.ToString("0.0") ★
+                                            </div>
+                                            <div class="small text-muted mt-1">
+                                                @s.ReviewsCount @L["Reviews"]
+                                            </div> *@
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-2 small text-muted">
+                                        @string.Join(" · ", s.Services ?? Enumerable.Empty<string>())
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-auto d-flex justify-content-between align-items-center pt-3 border-top">
+                                <div class="small text-muted">
+                                    @L["FromPrice"]
+                                    <strong>
+                                        @(s.PricePerDay > 0 ? $"€{s.PricePerDay}" : L["OnRequest"])
+                                    </strong>
+                                </div>
+
+                        @if (s.AnnouncementIds != null && s.AnnouncementIds.Any())
+                                {
+                                    foreach (var announcementId in s.AnnouncementIds)
+                                    {
+
+                                        <div class="d-flex gap-2">
+                                           
+
+                                            <a class="btn btn-brand btn-sm"
+                                               asp-controller="Announcement"
+                                               asp-action="Details"
+                                               asp-route-id="@announcementId">
+
+                                                Ver Anúncio
+                                            </a>
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                }
+        }
+    </div>
+</section>

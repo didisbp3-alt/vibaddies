@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model MVC_Buddies.Dtos.EditPetOwnerViewModel
+@inject IViewLocalizer Localizer
+
+<div class="container mt-5">
+    <div class="card shadow-sm rounded-4 border-0">
+        <div class="card-body p-4">
+
+            <h3 class="mb-4">@Localizer["PageHeading"]</h3>
+
+            <form asp-action="Edit" method="post">
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">@Localizer["Username"]</label>
+                        <input asp-for="UserName" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">@Localizer["Email"]</label>
+                        <input asp-for="Email" class="form-control" />
+                    </div>
+
+                </div>
+
+                <div class="mt-4 text-end">
+                    <button type="submit" class="btn btn-primary px-4">
+                        @Localizer["SaveChanges"]
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

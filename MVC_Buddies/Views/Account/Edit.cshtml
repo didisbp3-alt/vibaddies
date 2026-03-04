@@ -1,0 +1,116 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model MVC_Buddies.Dtos.EditPetSitterViewModel
+@inject IViewLocalizer Localizer
+
+<div class="container mt-5">
+    <div class="card shadow-sm rounded-4 border-0">
+        <div class="card-body p-4">
+
+            <h3 class="mb-4">@Localizer["PageHeading"]</h3>
+
+            <form asp-action="Edit" method="post">
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">@Localizer["FullName"]</label>
+                        <input asp-for="FullName" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">@Localizer["PhotoUrl"]</label>
+                        <input asp-for="PhotoUrl" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">@Localizer["YearsExperience"]</label>
+                        <input asp-for="YearsExperience" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">@Localizer["Location"]</label>
+                        <select asp-for="LocationId"
+                                asp-items="@(new SelectList(Model.Locations, "Id", "Name"))"
+                                class="form-select">
+                            <option value="">
+                                @Localizer["SelectLocation"]
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">@Localizer["Subscription"]</label>
+                        <select asp-for="SubscriptionType" class="form-select">
+                            <option value="Free">@Localizer["Free"]</option>
+                            <option value="Premium">@Localizer["Premium"]</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <hr class="my-4" />
+
+                <!-- SKILLS -->
+                <h5>@Localizer["Skills"]</h5>
+                <div class="row">
+                    @foreach (var skill in Model.Skills)
+                    {
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       name="SelectedSkillIds"
+                                       value="@skill.Id"
+                                       @(Model.SelectedSkillIds.Contains(skill.Id) ? "checked" : "") />
+                                <label class="form-check-label">
+                                    @skill.Name
+                                </label>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <input type="text"
+                       name="NewSkills[0]"
+                       class="form-control mt-3"
+                       placeholder="@Localizer["AddNewSkill"]" />
+
+                <hr class="my-4" />
+
+                <!-- SPECIES -->
+                <h5>@Localizer["Species"]</h5>
+                <div class="row">
+                    @foreach (var s in Model.Species)
+                    {
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       name="SelectedSpeciesIds"
+                                       value="@s.Id"
+                                       @(Model.SelectedSpeciesIds.Contains(s.Id) ? "checked" : "") />
+                                <label class="form-check-label">
+                                    @s.Name
+                                </label>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <input type="text"
+                       name="NewSpecies[0]"
+                       class="form-control mt-3"
+                       placeholder="@Localizer["AddNewSpecies"]" />
+
+                <div class="mt-4 text-end">
+                    <button type="submit" class="btn btn-primary px-4">
+                        @Localizer["SaveChanges"]
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

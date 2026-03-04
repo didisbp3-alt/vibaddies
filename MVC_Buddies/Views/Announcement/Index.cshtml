@@ -1,0 +1,272 @@
+﻿@model MVC_Buddies.Dtos.AnnouncementListViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer L
+
+<h2 class="mb-4">@L["Announcements"]</h2>
+
+<!-- Filtros em linha -->
+<form method="get" asp-action="Index" class="row g-3 mb-4 align-items-end">
+    <!-- Espécie -->
+    <div class="col-auto">
+    <select asp-for="SpeciesId" class="form-select">
+        <option value="">@L["AllSpecies"]</option>
+
+        @foreach (var sp in Model.Species)
+        {
+            <option value="@sp.Id">
+                @sp.Name
+            </option>
+        }
+    </select>
+    </div>
+
+    <!-- Serviço -->
+    <div class="col-auto">
+    <select asp-for="ServiceId" class="form-select">
+        <option value="">@L["AnyService"]</option>
+
+        @foreach (var s in Model.Services)
+        {
+            <option value="@s.Id">
+                @s.Name
+            </option>
+        }
+    </select>
+        </div>
+
+
+    <!-- Local -->
+    <div class="col-auto">
+        <label class="form-label small text-muted">@L["Locations"]</label>
+        <select asp-for="LocationId" class="form-select">
+            <option value="">@L["AnyLocation"]</option>
+            @foreach (var loc in Model.Location)
+            {
+                <option value="@loc.Id" selected="@(Model.LocationId == loc.Id)">
+                    @loc.Name
+                </option>
+            }
+        </select>
+    </div>
+
+    <!-- Botão de pesquisar -->
+    <div class="col-auto">
+        <button type="submit" class="btn btn-success mb-2">@L["Search"]</button>
+    </div>
+</form>
+
+
+
+<!-- Lista de anúncios -->
+<section class="container mb-5">
+    <div class="row g-4">
+        @if (Model?.Announcements == null || !Model.Announcements.Any())
+        {
+            <div class="col-12">
+                <div class="alert alert-info text-center mb-0">
+                    @L["NoAnnouncementsFound"]
+                </div>
+            </div>
+        }
+        else
+        {
+            @foreach (var s in Model.Announcements)
+            {
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
+                    <article class="card h-100 shadow-sm rounded-4 border-0 sitter-card w-100">
+                        <div class="card-body d-flex flex-column">
+
+                            <!-- Header do card -->
+                            <div class="d-flex gap-3 mb-3 align-items-center">
+                                <img src="@(string.IsNullOrWhiteSpace(s.AvatarUrl)
+                                                                                         ? Url.Content("~/images/avatar-placeholder.png")
+                                                                                         : s.AvatarUrl)"
+                             alt="@s.PetSitterFullName"
+                             class="rounded-circle"
+                             style="width:56px;height:56px;object-fit:cover;" />
+
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between gap-2">
+                                        <div>
+                                            <h6 class="mb-1">@s.PetSitterFullName</h6>
+                                            <div class="small text-muted">
+                                                <i class="bi bi-geo-alt me-1"></i>@s.LocationName
+                                            </div>
+                                        </div>
+                                       @*  <div class="text-end">
+                                            <div class="badge bg-light text-dark border">
+                                                @s.Rating.ToString("0.0") ★
+                                            </div> *@
+                                            @* <div class="small text-muted mt-1">
+                                                @s.ReviewsCount @L["Reviews"]
+                                            </div>
+                                        </div>  *@
+                                    </div>
+
+                                    <div class="mt-2 small text-muted">
+                                        @string.Join(" · ", s.Services ?? Enumerable.Empty<string>())
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Footer do card -->
+                            <div class="mt-auto d-flex justify-content-between align-items-center pt-3 border-top">
+                                <div class="small text-muted">
+                                    @L["FromPrice"]
+                                    <strong>
+                                        @(s.PricePerDay > 0 ? $"€{s.PricePerDay}" : L["OnRequest"])
+                                    </strong>
+                                </div>
+
+                                <div class="d-flex gap-2">
+
+
+                                    <a class="btn btn-brand btn-sm"
+                                       asp-controller="Announcement"
+                                       asp-action="Details"
+                                       asp-route-id="@s.Id">
+
+                                        Ver Anúncio
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </article>
+                </div>
+                }
+        }
+    </div>
+</section>
+ 
+
+@* 
+
+@model MVC_Buddies.Dtos.AnnouncementListViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer L
+
+<h2 class="mb-4">@L["Announcements"]</h2>
+
+<!-- Filtros em linha -->
+<form method="get" asp-action="Index" class="row g-3 mb-4 align-items-end">
+    <!-- Espécie -->
+    <div class="col-auto">
+        <select asp-for="SpeciesId" class="form-select">
+            <option value="">@L["AllSpecies"]</option>
+            @foreach (var sp in Model.Species)
+            {
+                <option value="@sp.Id" selected="@(Model.SpeciesId == sp.Id)">
+                    @sp.Name
+                </option>
+            }
+        </select>
+    </div>
+
+    <!-- Serviço -->
+    <div class="col-auto">
+        <select asp-for="ServiceId" class="form-select">
+            <option value="">@L["AnyService"]</option>
+            @foreach (var s in Model.Services)
+            {
+                <option value="@s.Id" selected="@(Model.ServiceId == s.Id)">
+                    @s.Name
+                </option>
+            }
+        </select>
+    </div>
+
+    <!-- Local -->
+    <div class="col-auto">
+        <label class="form-label small text-muted">@L["Locations"]</label>
+        <select asp-for="LocationId" class="form-select">
+            <option value="">@L["AnyLocation"]</option>
+            @foreach (var loc in Model.Location)
+            {
+                <option value="@loc.Id" selected="@(Model.LocationId == loc.Id)">
+                    @loc.Name
+                </option>
+            }
+        </select>
+    </div>
+
+    <!-- Botão de pesquisar -->
+    <div class="col-auto">
+        <button type="submit" class="btn btn-success mb-2">@L["Search"]</button>
+    </div>
+</form>
+
+<!-- Lista de anúncios -->
+<section class="container mb-5">
+    <div class="row g-4">
+        @if (Model?.Announcements == null || !Model.Announcements.Any())
+        {
+            <div class="col-12">
+                <div class="alert alert-info text-center mb-0">
+                    @L["NoAnnouncementsFound"]
+                </div>
+            </div>
+        }
+        else
+        {
+            @foreach (var s in Model.Announcements)
+            {
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
+                    <article class="card h-100 shadow-sm rounded-4 border-0 sitter-card w-100">
+                        <div class="card-body d-flex flex-column">
+
+                            <!-- Header do card -->
+                            <div class="d-flex gap-3 mb-3 align-items-center">
+                                <img src="@(string.IsNullOrWhiteSpace(s.AvatarUrl)
+                                                                         ? Url.Content("~/images/avatar-placeholder.png")
+                                                                         : s.AvatarUrl)"
+                             alt="@s.PetSitterFullName"
+                             class="rounded-circle"
+                             style="width:56px;height:56px;object-fit:cover;" />
+
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between gap-2">
+                                        <div>
+                                            <h6 class="mb-1">@s.PetSitterFullName</h6>
+                                            <div class="small text-muted">
+                                                <i class="bi bi-geo-alt me-1"></i>@s.LocationName
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            @* Opções para rating e reviews, se precisar
+                                     @*    </div>
+                                    </div>
+
+                                    <div class="mt-2 small text-muted">
+                                        @string.Join(" · ", s.Services ?? Enumerable.Empty<string>())
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Footer do card -->
+                            <div class="mt-auto d-flex justify-content-between align-items-center pt-3 border-top">
+                                <div class="small text-muted">
+                                    @L["FromPrice"]
+                                    <strong>
+                                        @(s.PricePerDay > 0 ? $"€{s.PricePerDay}" : L["OnRequest"])
+                                    </strong>
+                                </div>
+
+                                <div class="d-flex gap-2">
+                                    <a class="btn btn-brand btn-sm"
+                                       asp-controller="Announcement"
+                                       asp-action="Details"
+                                       asp-route-id="@s.Id">
+                                        Ver Anúncio
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </article>
+                </div>
+                }
+        }
+    </div>
+</section>
+ *@ 

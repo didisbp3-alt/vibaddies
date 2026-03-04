@@ -1,0 +1,56 @@
+﻿@model MVC_Buddies.Dtos.PagedResult<MVC_Buddies.Dtos.PendingPetSitterItemVm>
+@{
+    ViewData["Title"] = "PetSitters Pendentes";
+}
+
+<h2 class="mb-3">@ViewData["Title"]</h2>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-striped mb-0 align-middle">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Experiência</th>
+                    <th>Bio</th>
+                    <th class="text-end">Aprovar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ps in Model.Items)
+                {
+                    <tr>
+                        <td>@ps.Name</td>
+                        <td>@ps.Email</td>
+                        <td>@(ps.ExperienceYears?.ToString() ?? "-")</td>
+                        <td style="max-width: 420px;">@ps.Bio</td>
+                        <td class="text-end">
+                            <div class="d-inline-flex gap-2">
+                                <form asp-action="ApprovePetSitter" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@ps.PetSitterId" />
+                                    <input type="hidden" name="isApproved" value="true" />
+                                    <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                                    <button class="btn btn-sm btn-success">Aprovar</button>
+                                </form>
+
+                                <form asp-action="ApprovePetSitter" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@ps.PetSitterId" />
+                                    <input type="hidden" name="isApproved" value="false" />
+                                    <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                                    <button class="btn btn-sm btn-outline-danger">Rejeitar</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="mt-3">
+    <span class="text-muted">Total: @Model.Total</span>
+</div>

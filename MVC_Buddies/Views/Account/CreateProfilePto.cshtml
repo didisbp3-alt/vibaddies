@@ -1,0 +1,111 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model MVC_Buddies.Dtos.CreatePetOwnerViewModel
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<h3 class="mb-4">@Localizer["PageHeading"]</h3>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<form asp-action="CreatePetOwnerProfile"
+      method="post"
+      enctype="multipart/form-data">
+
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="Id" />
+
+    <!-- Nome Completo -->
+    <div class="mb-3">
+        <label asp-for="FullName" class="form-label"></label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger small"></span>
+    </div>
+
+    <!-- Bio -->
+    <div class="mb-3">
+        <label asp-for="Bio" class="form-label"></label>
+        <textarea asp-for="Bio" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="Bio" class="text-danger small"></span>
+    </div>
+
+    <!-- Localização -->
+    <div class="mb-3">
+        <label asp-for="SelectedLocationId" class="form-label"></label>
+        <select asp-for="SelectedLocationId"
+                asp-items="@(new SelectList(Model.Locations, "Id", "Name"))"
+                class="form-select">
+            <option value="">@Localizer["SelectLocationOption"]</option>
+        </select>
+        <span asp-validation-for="SelectedLocationId" class="text-danger small"></span>
+    </div>
+
+    <!-- Telefone -->
+    <div class="mb-3">
+        <label asp-for="PhoneNumber" class="form-label"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+    </div>
+
+    <!-- Endereço -->
+    <div class="mb-3">
+        <label asp-for="Address" class="form-label"></label>
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger small"></span>
+    </div>
+
+    <!-- Código Postal -->
+    <div class="mb-3">
+        <label asp-for="PostalCode" class="form-label"></label>
+        <input asp-for="PostalCode" class="form-control" />
+        <span asp-validation-for="PostalCode" class="text-danger small"></span>
+    </div>
+
+    <!-- Foto de Perfil -->
+    <div class="mb-3">
+        <label asp-for="ProfilePicture" class="form-label"></label>
+        <input asp-for="ProfilePicture" type="file" class="form-control" />
+        <span asp-validation-for="ProfilePicture" class="text-danger small"></span>
+    </div>
+
+    <!-- Preview da foto atual -->
+    @if (!string.IsNullOrEmpty(Model.PhotoUrl))
+    {
+        <div class="mb-3">
+            <label class="form-label">@Localizer["CurrentPhoto"]</label><br />
+            <img src="@Model.PhotoUrl" width="120" class="rounded shadow-sm" />
+        </div>
+    }
+
+    <!-- Seleção de pets -->
+    <div class="mb-3">
+        <label class="form-label">@Localizer["PetsLabel"]</label><br />
+        @foreach (var pet in Model.Pets)
+        {
+            <div class="form-check">
+                <input class="form-check-input"
+                       type="checkbox"
+                       name="SelectedPetIds"
+                       value="@pet.Id"
+                       @(Model.SelectedPetIds.Contains(pet.Id) ? "checked" : "") />
+                <label class="form-check-label">@pet.Name</label>
+            </div>
+        }
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-success">
+            @Localizer["SaveProfileButton"]
+        </button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

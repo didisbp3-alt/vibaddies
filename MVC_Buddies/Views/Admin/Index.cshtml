@@ -1,0 +1,36 @@
+﻿@model MVC_Buddies.Dtos.AdminDashboardVm
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    var k = Model.Kpis;
+}
+
+<h2 class="mb-3">@ViewData["Title"]</h2>
+
+@if (k is null)
+{
+    <div class="alert alert-warning">Não foi possível carregar os KPIs.</div>
+}
+else
+{
+    <div class="row g-3">
+        <div class="col-md-3"><div class="card p-3"><div class="fw-bold">Users</div><div class="fs-4">@k.TotalUsers</div></div></div>
+        <div class="col-md-3"><div class="card p-3"><div class="fw-bold">PetSitters</div><div class="fs-4">@k.TotalPetSitters</div></div></div>
+        <div class="col-md-3"><div class="card p-3"><div class="fw-bold">Owners</div><div class="fs-4">@k.TotalOwners</div></div></div>
+        <div class="col-md-3"><div class="card p-3"><div class="fw-bold">Announcements</div><div class="fs-4">@k.TotalAnnouncements</div></div></div>
+
+        <div class="col-md-3"><div class="card p-3"><div class="fw-bold">Bookings</div><div class="fs-4">@k.TotalBookings</div></div></div>
+        <div class="col-md-3"><div class="card p-3"><div class="fw-bold">Revenue Total</div><div class="fs-4">@k.TotalRevenue.ToString("0.00") €</div></div></div>
+        <div class="col-md-3"><div class="card p-3"><div class="fw-bold">Revenue 30 dias</div><div class="fs-4">@k.RevenueLast30Days.ToString("0.00") €</div></div></div>
+    </div>
+}
+
+<hr class="my-4" />
+
+<div class="d-flex gap-2 flex-wrap">
+    <a class="btn btn-outline-primary" asp-action="Users">Users</a>
+    <a class="btn btn-outline-primary" asp-action="PendingPetSitters">PetSitters Pendentes</a>
+    <a class="btn btn-outline-primary" asp-action="Announcements">Announcements</a>
+    <a class="btn btn-outline-secondary" asp-action="Species">Species</a>
+    <a class="btn btn-outline-secondary" asp-action="Breeds" asp-route-speciesId="0">Breeds</a>
+    <a class="btn btn-outline-secondary" asp-action="Skills">Skills</a>
+</div>

@@ -117,28 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CreateSpecies" xml:space="preserve">
-    <value>Criar Espécie</value>
+  <data name="AllSpecies" xml:space="preserve">
+    <value>Todas as Espécies</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Apagar</value>
+  <data name="Announcements" xml:space="preserve">
+    <value>Anúncios</value>
   </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Editar</value>
+  <data name="AnyLocation" xml:space="preserve">
+    <value>Qualquer Localização</value>
   </data>
-  <data name="NewSpecies" xml:space="preserve">
-    <value>+ Nova Espécie</value>
+  <data name="AnyService" xml:space="preserve">
+    <value>Qualquer Serviço</value>
   </data>
-  <data name="NoSpeciesFound" xml:space="preserve">
-    <value>Nenhuma espécie disponível</value>
+  <data name="FromPrice" xml:space="preserve">
+    <value>A partir de</value>
   </data>
-  <data name="NoSpeciesSubtitle" xml:space="preserve">
-    <value>Crie a sua primeira espécie para começar.</value>
+  <data name="Locations" xml:space="preserve">
+    <value>Localizações</value>
   </data>
-  <data name="SpeciesSubtitle" xml:space="preserve">
-    <value>Gerir as espécies disponíveis no sistema</value>
+  <data name="NoAnnouncementsFound" xml:space="preserve">
+    <value>Nenhum anúncio encontrado</value>
   </data>
-  <data name="SpeciesTitle" xml:space="preserve">
-    <value>Espécies</value>
+  <data name="OnRequest" xml:space="preserve">
+    <value>Sob consulta</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Pesquisar</value>
   </data>
 </root>

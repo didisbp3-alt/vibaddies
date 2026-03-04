@@ -124,7 +124,7 @@
     <value>Email</value>
   </data>
   <data name="ExperienceWithYears" xml:space="preserve">
-    <value>Experience With Years</value>
+    <value>{0} years</value>
   </data>
   <data name="FullName" xml:space="preserve">
     <value>Full Name</value>

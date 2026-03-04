@@ -126,13 +126,46 @@
   <data name="FindIdealSitterTitle" xml:space="preserve">
     <value>Encontre o cuidador ideal para o seu animal</value>
   </data>
+  <data name="FromPrice" xml:space="preserve">
+    <value>A partir de</value>
+  </data>
+  <data name="HomeTitle" xml:space="preserve">
+    <value>Início</value>
+  </data>
   <data name="HowItWorks" xml:space="preserve">
     <value>Como funciona</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Localização</value>
   </data>
   <data name="LocationLabel" xml:space="preserve">
     <value>Local</value>
   </data>
+  <data name="LocationPlaceholder" xml:space="preserve">
+    <value>ex: Lisboa</value>
+  </data>
+  <data name="No Sitters Found" xml:space="preserve">
+    <value>Nenhum cuidador encontrado</value>
+  </data>
+  <data name="On Request" xml:space="preserve">
+    <value>Sob consulta</value>
+  </data>
   <data name="SearchBtn" xml:space="preserve">
     <value>Pesquisar</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Serviço</value>
+  </data>
+  <data name="AnyService" xml:space="preserve">
+    <value>Qualquer Serviço</value>
+  </data>
+  <data name="From Date" xml:space="preserve">
+    <value>De</value>
+  </data>
+  <data name="To Date" xml:space="preserve">
+    <value>Até</value>
+  </data>
+  <data name="Top Sitters In" xml:space="preserve">
+    <value>Melhores Cuidadores Em</value>
   </data>
 </root>
